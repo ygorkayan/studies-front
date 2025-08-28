@@ -1,0 +1,13 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+:root {
+  --border-radius-default: 8px;
+
+  --color-white: #fff;
+  --color-red: #a94442;
+  --color-back: #313131;
+}
