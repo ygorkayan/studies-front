@@ -1,8 +1,15 @@
+import "./App.css";
+import Button from "./components/Button/Button";
+import { useNavigate } from "react-router";
+
 export const App = () => {
+  let navigate = useNavigate();
+
   return (
-    <div>
-      <h1>Hello, World!</h1>
-      <p>This is a simple React application.</p>
+    <div className="container">
+      <Button onClick={() => navigate("/pomodoro")}>Pomodoro</Button>
+
+      <Button onClick={() => navigate("/flash-cards")}>Flash Cards</Button>
     </div>
   );
 };
