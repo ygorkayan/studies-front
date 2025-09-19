@@ -1,0 +1,17 @@
+.countdown-container {
+  width: 950px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  border: var(--border-default);
+  font-size: var(--font-size-big);
+  border-radius: var(--border-radius-default);
+}
+
+@media (max-width: 950px) {
+  .countdown-container {
+    width: 95vw;
+  }
+}

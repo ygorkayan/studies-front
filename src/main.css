@@ -2,12 +2,18 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: var(--color-back);
 }
 
 :root {
+  --font-size-default: 1rem;
+  --font-size-big: 8rem;
   --border-radius-default: 8px;
-
   --color-white: #fff;
-  --color-red: #a94442;
   --color-back: #313131;
+  --border-default: 2px solid var(--color-white);
 }
