@@ -1,4 +1,4 @@
-import { type Cycle } from "../../../app/pomodoro/helpers";
+import { type Cycle } from "../../types";
 
 export type PomodoroTableProps = {
   cycles: Cycle[];
