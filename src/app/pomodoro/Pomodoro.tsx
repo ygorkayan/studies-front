@@ -2,6 +2,7 @@ import styles from "./Pomodoro.module.css";
 import Button from "../components/Button/Button";
 import { useEffect, useReducer } from "react";
 import PomodoroDisplay from "./components/PomodoroDisplay/PomodoroDisplay";
+import { formatTime } from "./components/PomodoroDisplay/helpers";
 import PomodoroTable from "./components/PomodoroTable/PomodoroTable";
 
 import {
@@ -12,6 +13,8 @@ import {
   ONE_SECOND_IN_MILLISECONDS,
   TWENTY_FIVE_MINUTES_IN_SECONDS,
 } from "./helpers";
+
+const TITLE = "Pomodoro";
 
 export const Pomodoro = () => {
   const [state, dispatch] = useReducer(handlerPomodoroState, getInitialPomodoroState());
@@ -29,7 +32,11 @@ export const Pomodoro = () => {
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
 
-    if (!state.isCountdownRunning || state.isCountdownPaused || !state.currentCycleStartedAt) return;
+    if (!state.isCountdownRunning || state.isCountdownPaused || !state.currentCycleStartedAt) {
+      document.title = TITLE;
+
+      return;
+    };
 
     if (state.value <= 0) {
       playBeep();
@@ -37,12 +44,16 @@ export const Pomodoro = () => {
       setIsCountdownRunning(false);
       setIsCountdownPaused(false);
       setValue(TWENTY_FIVE_MINUTES_IN_SECONDS);
+      alert("Pomodoro cycle completed!");
       return;
     }
 
     timeout = setTimeout(() => {
       const oldValue = state.value;
-      setValue(oldValue - 1);
+      const newValue = oldValue - 1;
+
+      document.title = `${TITLE} - ${formatTime(newValue)}`;
+      setValue(newValue);
     }, ONE_SECOND_IN_MILLISECONDS);
 
     return () => clearTimeout(timeout);
