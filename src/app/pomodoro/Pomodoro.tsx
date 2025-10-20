@@ -2,6 +2,7 @@ import styles from "./Pomodoro.module.css";
 import Button from "../components/Button/Button";
 import { useEffect, useReducer } from "react";
 import PomodoroDisplay from "./components/PomodoroDisplay/PomodoroDisplay";
+import { formatTime } from "./components/PomodoroDisplay/helpers";
 import PomodoroTable from "./components/PomodoroTable/PomodoroTable";
 
 import {
@@ -37,12 +38,16 @@ export const Pomodoro = () => {
       setIsCountdownRunning(false);
       setIsCountdownPaused(false);
       setValue(TWENTY_FIVE_MINUTES_IN_SECONDS);
+      alert("Pomodoro cycle completed!");
       return;
     }
 
     timeout = setTimeout(() => {
       const oldValue = state.value;
-      setValue(oldValue - 1);
+      const newValue = oldValue - 1;
+
+      document.title = `Pomodoro - ${formatTime(newValue)}`;
+      setValue(newValue);
     }, ONE_SECOND_IN_MILLISECONDS);
 
     return () => clearTimeout(timeout);
