@@ -14,6 +14,8 @@ import {
   TWENTY_FIVE_MINUTES_IN_SECONDS,
 } from "./helpers";
 
+const TITLE = "Pomodoro";
+
 export const Pomodoro = () => {
   const [state, dispatch] = useReducer(handlerPomodoroState, getInitialPomodoroState());
 
@@ -30,7 +32,11 @@ export const Pomodoro = () => {
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
 
-    if (!state.isCountdownRunning || state.isCountdownPaused || !state.currentCycleStartedAt) return;
+    if (!state.isCountdownRunning || state.isCountdownPaused || !state.currentCycleStartedAt) {
+      document.title = TITLE;
+
+      return;
+    };
 
     if (state.value <= 0) {
       playBeep();
@@ -46,7 +52,7 @@ export const Pomodoro = () => {
       const oldValue = state.value;
       const newValue = oldValue - 1;
 
-      document.title = `Pomodoro - ${formatTime(newValue)}`;
+      document.title = `${TITLE} - ${formatTime(newValue)}`;
       setValue(newValue);
     }, ONE_SECOND_IN_MILLISECONDS);
 
