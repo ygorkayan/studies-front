@@ -1,4 +1,4 @@
-import { type ActionDispatch } from "react";
+import { type ActionDispatch, type FC, type JSX } from "react";
 
 export type Cycle = {
   id: string;
@@ -27,3 +27,16 @@ export type PomodoroActionType = {
 };
 
 export type ActionDispatchType = ActionDispatch<[action: PomodoroActionType]>;
+
+export type withPomodoroType = (Component: FC<any>) => () => JSX.Element;
+
+export type PomodoroProps = {
+  state: PomodoroStateType;
+  setCycle: (value: Date) => void;
+  setValue: (value: number) => void;
+  setIsCountdownPaused: (value: boolean) => void;
+  setIsCountdownRunning: (value: boolean) => void;
+  setCurrentCycleStartedAt: (value: Date) => void;
+  handlerDeleteCycle: (id: string) => void;
+  handlerDeleteAllCycles: () => void;
+};
