@@ -3,7 +3,7 @@ import Button from "./components/Button/Button";
 import { useNavigate } from "react-router";
 
 export const App = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>

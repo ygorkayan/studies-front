@@ -28,7 +28,7 @@ export type PomodoroActionType = {
 
 export type ActionDispatchType = ActionDispatch<[action: PomodoroActionType]>;
 
-export type withPomodoroType = (Component: FC<any>) => () => JSX.Element;
+export type withPomodoroType = (Component: FC<PomodoroProps>) => () => JSX.Element;
 
 export type PomodoroProps = {
   state: PomodoroStateType;
