@@ -78,4 +78,6 @@ export const Pomodoro: FC<PomodoroProps> = ({
   </div>
 );
 
-export default withPomodoro(Pomodoro);
+const PomodoroWithHOC = withPomodoro(Pomodoro);
+
+export default PomodoroWithHOC;

@@ -55,7 +55,16 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     }, ONE_SECOND_IN_MILLISECONDS);
 
     return () => clearTimeout(timeout);
-  }, [state.isCountdownRunning, state.value]);
+  }, [
+    state.isCountdownRunning,
+    state.value,
+    setCycle,
+    setIsCountdownPaused,
+    setValue,
+    state.currentCycleStartedAt,
+    setIsCountdownRunning,
+    state.isCountdownPaused,
+  ]);
 
   const props: PomodoroProps = {
     state,
