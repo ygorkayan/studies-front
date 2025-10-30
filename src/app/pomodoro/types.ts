@@ -7,6 +7,7 @@ export type Cycle = {
 };
 
 export type PomodoroStateType = {
+  studying: boolean;
   cycles: Cycle[];
   value: number;
   isCountdownPaused: boolean;
@@ -22,7 +23,9 @@ export type PomodoroActionType = {
     | "value"
     | "isCountdownPaused"
     | "isCountdownRunning"
-    | "currentCycleStartedAt";
+    | "currentCycleStartedAt"
+    | "studying";
+
   payload?: Cycle | number | boolean | Date | null | string;
 };
 
@@ -32,6 +35,7 @@ export type withPomodoroType = (Component: FC<PomodoroProps>) => () => JSX.Eleme
 
 export type PomodoroProps = {
   state: PomodoroStateType;
+  handlerStudying: (studying: boolean) => void;
   setCycle: (value: Date) => void;
   setValue: (value: number) => void;
   setIsCountdownPaused: (value: boolean) => void;

@@ -2,7 +2,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -15,5 +15,6 @@ body {
   --border-radius-default: 8px;
   --color-white: #fff;
   --color-back: #313131;
+  --color-green: #4caf50;
   --border-default: 2px solid var(--color-white);
 }

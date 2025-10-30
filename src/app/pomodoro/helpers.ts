@@ -2,9 +2,12 @@ import type { ActionDispatchType, Cycle, PomodoroActionType, PomodoroStateType }
 
 export const TWENTY_FIVE_MINUTES_IN_SECONDS = 25 * 60;
 
+export const FIVE_MINUTES_IN_SECONDS = 5 * 60;
+
 export const ONE_SECOND_IN_MILLISECONDS = 1000;
 
 export const getInitialPomodoroState: () => PomodoroStateType = () => {
+  // refactor to check expiration of stored state
   const storedState = localStorage.getItem("pomodoroState");
 
   if (storedState) {
@@ -12,6 +15,7 @@ export const getInitialPomodoroState: () => PomodoroStateType = () => {
     return parsedState;
   } else {
     return {
+      studying: false,
       cycles: [],
       isCountdownPaused: false,
       isCountdownRunning: false,
@@ -23,6 +27,10 @@ export const getInitialPomodoroState: () => PomodoroStateType = () => {
 
 export const handlerPomodoroState = (oldState: PomodoroStateType, action: PomodoroActionType): PomodoroStateType => {
   let newState = { ...oldState };
+
+  if (action.type === "studying") {
+    newState = { ...oldState, studying: action.payload as boolean };
+  }
 
   if (action.type === "cycles") {
     newState = { ...oldState, cycles: [...(oldState.cycles || []), action.payload as Cycle] };
@@ -62,6 +70,10 @@ export const generateUniqueId = (): string => {
   return `${timestamp}-${randomPart}`;
 };
 
+export const handlerStudying = (dispatch: ActionDispatchType) => (studying: boolean) => {
+  dispatch({ type: "studying", payload: studying });
+};
+
 export const handlerCycles = (dispatch: ActionDispatchType) => (value: Date) => {
   dispatch({ type: "cycles", payload: { id: generateUniqueId(), startedAt: value, finishedAt: new Date() } });
 };
@@ -92,6 +104,7 @@ export const handlerCycleStartedAt = (dispatch: ActionDispatchType) => (value: D
 
 export const handlers = (dispatch: ActionDispatchType) => {
   return {
+    handlerStudying: handlerStudying(dispatch),
     setCycle: handlerCycles(dispatch),
     setValue: handlerValues(dispatch),
     handlerDeleteCycle: handlerDeleteCycle(dispatch),
