@@ -7,6 +7,7 @@ export const FIVE_MINUTES_IN_SECONDS = 5 * 60;
 export const ONE_SECOND_IN_MILLISECONDS = 1000;
 
 export const getInitialPomodoroState: () => PomodoroStateType = () => {
+  // refactor to check expiration of stored state
   const storedState = localStorage.getItem("pomodoroState");
 
   if (storedState) {

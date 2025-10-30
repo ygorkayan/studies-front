@@ -64,8 +64,11 @@ export const Pomodoro: FC<PomodoroProps> = ({
           const newStudying = !state.studying;
           const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
 
+          if (state.studying) {
+            setCycle(state.currentCycleStartedAt);
+          }
+
           handlerStudying(newStudying);
-          setCycle(state.currentCycleStartedAt);
           setIsCountdownRunning(false);
           setIsCountdownPaused(false);
           setValue(timeToWork);
