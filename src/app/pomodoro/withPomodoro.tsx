@@ -5,6 +5,7 @@ import {
   playBeep,
   handlers,
   handlerPomodoroState,
+  FIVE_MINUTES_IN_SECONDS,
   getInitialPomodoroState,
   ONE_SECOND_IN_MILLISECONDS,
   TWENTY_FIVE_MINUTES_IN_SECONDS,
@@ -20,6 +21,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
   const {
     setCycle,
     setValue,
+    handlerStudying,
     handlerDeleteCycle,
     setIsCountdownPaused,
     setIsCountdownRunning,
@@ -37,11 +39,18 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     }
 
     if (state.value <= 0) {
+      const newStudying = !state.studying;
+      const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
+
+      if (state.studying) {
+        setCycle(state.currentCycleStartedAt);
+      }
+
       playBeep();
-      setCycle(state.currentCycleStartedAt);
-      setIsCountdownRunning(false);
+      setValue(timeToWork);
       setIsCountdownPaused(false);
-      setValue(TWENTY_FIVE_MINUTES_IN_SECONDS);
+      handlerStudying(newStudying);
+      setIsCountdownRunning(false);
       alert("Pomodoro cycle completed!");
       return;
     }
@@ -64,12 +73,16 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     state.currentCycleStartedAt,
     setIsCountdownRunning,
     state.isCountdownPaused,
+    state.studying,
+    handlerStudying,
   ]);
 
+  // refactor later to send only needed props (fnStart, fnPause fnResume, fnDone, fnDeleteCycle, fnDeleteAllCycles, state)
   const props: PomodoroProps = {
     state,
     setCycle,
     setValue,
+    handlerStudying,
     handlerDeleteCycle,
     setIsCountdownPaused,
     setIsCountdownRunning,

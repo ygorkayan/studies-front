@@ -4,12 +4,13 @@ import PomodoroDisplay from "./components/PomodoroDisplay/PomodoroDisplay";
 import PomodoroTable from "./components/PomodoroTable/PomodoroTable";
 import withPomodoro from "./withPomodoro";
 import type { PomodoroProps } from "./types";
-import { TWENTY_FIVE_MINUTES_IN_SECONDS } from "./helpers";
+import { FIVE_MINUTES_IN_SECONDS, TWENTY_FIVE_MINUTES_IN_SECONDS } from "./helpers";
 import type { FC } from "react";
 
 export const Pomodoro: FC<PomodoroProps> = ({
   setCycle,
   setValue,
+  handlerStudying,
   handlerDeleteCycle,
   setIsCountdownPaused,
   setIsCountdownRunning,
@@ -18,7 +19,7 @@ export const Pomodoro: FC<PomodoroProps> = ({
   state,
 }) => (
   <div className={styles.container}>
-    <PomodoroDisplay time={state.value} />
+    <PomodoroDisplay time={state.value} studying={state.studying} />
 
     <div className={styles["buttons-container"]}>
       {!state.isCountdownRunning && !state.isCountdownPaused && (
@@ -60,10 +61,14 @@ export const Pomodoro: FC<PomodoroProps> = ({
         onClick={() => {
           if (!state.currentCycleStartedAt) return;
 
+          const newStudying = !state.studying;
+          const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
+
+          handlerStudying(newStudying);
           setCycle(state.currentCycleStartedAt);
           setIsCountdownRunning(false);
           setIsCountdownPaused(false);
-          setValue(TWENTY_FIVE_MINUTES_IN_SECONDS);
+          setValue(timeToWork);
         }}
       >
         Done
