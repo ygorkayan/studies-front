@@ -15,8 +15,8 @@ export const getInitialPomodoroState: () => PomodoroStateType = () => {
     return parsedState;
   } else {
     return {
-      studying: false,
       cycles: [],
+      studying: true,
       isCountdownPaused: false,
       isCountdownRunning: false,
       currentCycleStartedAt: null,
