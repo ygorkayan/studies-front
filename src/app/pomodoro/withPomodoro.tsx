@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { formatTime } from "./components/PomodoroDisplay/helpers";
 
 import {
@@ -21,13 +21,53 @@ const withPomodoro: withPomodoroType = (Component) => () => {
   const {
     setCycle,
     setValue,
+    deleteCycle,
+    deleteAllCycles,
     handlerStudying,
-    handlerDeleteCycle,
     setIsCountdownPaused,
     setIsCountdownRunning,
-    handlerDeleteAllCycles,
     setCurrentCycleStartedAt,
   } = handlers(dispatch);
+
+  const done = useCallback(() => {
+    if (!state.currentCycleStartedAt) return;
+
+    const newStudying = !state.studying;
+    const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
+
+    if (state.studying) {
+      setCycle(state.currentCycleStartedAt);
+    }
+
+    setValue(timeToWork);
+    setIsCountdownPaused(false);
+    handlerStudying(newStudying);
+    setIsCountdownRunning(false);
+  }, [
+    setCycle,
+    setValue,
+    state.studying,
+    handlerStudying,
+    setIsCountdownPaused,
+    setIsCountdownRunning,
+    state.currentCycleStartedAt,
+  ]);
+
+  const start = () => {
+    setIsCountdownRunning(true);
+    setIsCountdownPaused(false);
+    setCurrentCycleStartedAt(new Date());
+  };
+
+  const pause = () => {
+    setIsCountdownPaused(true);
+    setIsCountdownRunning(false);
+  };
+
+  const resume = () => {
+    setIsCountdownRunning(true);
+    setIsCountdownPaused(false);
+  };
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -39,18 +79,9 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     }
 
     if (state.value <= 0) {
-      const newStudying = !state.studying;
-      const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
-
-      if (state.studying) {
-        setCycle(state.currentCycleStartedAt);
-      }
+      done();
 
       playBeep();
-      setValue(timeToWork);
-      setIsCountdownPaused(false);
-      handlerStudying(newStudying);
-      setIsCountdownRunning(false);
       alert("Pomodoro cycle completed!");
       return;
     }
@@ -64,30 +95,16 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     }, ONE_SECOND_IN_MILLISECONDS);
 
     return () => clearTimeout(timeout);
-  }, [
-    state.isCountdownRunning,
-    state.value,
-    setCycle,
-    setIsCountdownPaused,
-    setValue,
-    state.currentCycleStartedAt,
-    setIsCountdownRunning,
-    state.isCountdownPaused,
-    state.studying,
-    handlerStudying,
-  ]);
+  }, [done, setValue, state.value, state.isCountdownPaused, state.isCountdownRunning, state.currentCycleStartedAt]);
 
-  // refactor later to send only needed props (fnStart, fnPause fnResume, fnDone, fnDeleteCycle, fnDeleteAllCycles, state)
   const props: PomodoroProps = {
     state,
-    setCycle,
-    setValue,
-    handlerStudying,
-    handlerDeleteCycle,
-    setIsCountdownPaused,
-    setIsCountdownRunning,
-    handlerDeleteAllCycles,
-    setCurrentCycleStartedAt,
+    start,
+    pause,
+    resume,
+    done,
+    deleteCycle,
+    deleteAllCycles,
   };
 
   return <Component {...props} />;

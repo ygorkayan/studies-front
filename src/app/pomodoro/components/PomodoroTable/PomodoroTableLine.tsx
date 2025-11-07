@@ -3,7 +3,7 @@ import type { FC } from "react";
 import type { PomodoroTableLineProps } from "./helpers";
 import Button from "../../../components/Button/Button";
 
-export const PomodoroTableLine: FC<PomodoroTableLineProps> = ({ cycle, position, handlerDeleteCycle }) => {
+export const PomodoroTableLine: FC<PomodoroTableLineProps> = ({ cycle, position, deleteCycle }) => {
   const { format } = new Intl.DateTimeFormat("pt-BR", {
     hour: "2-digit",
     minute: "2-digit",
@@ -13,7 +13,7 @@ export const PomodoroTableLine: FC<PomodoroTableLineProps> = ({ cycle, position,
   return (
     <div className={styles.line}>
       <span>{position}º pomodoro, Finished at {format(new Date(cycle.finishedAt))}</span>
-      <Button onClick={() => handlerDeleteCycle(cycle.id)}>DELETE</Button>
+      <Button onClick={() => deleteCycle(cycle.id)}>DELETE</Button>
     </div>
   );
 };
