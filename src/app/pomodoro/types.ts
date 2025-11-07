@@ -43,7 +43,6 @@ export type PomodoroProps = {
   deleteCycle: (id: string) => void;
 };
 
-
 export type localStorageType = {
   expirationDate: number;
   value: PomodoroStateType;
