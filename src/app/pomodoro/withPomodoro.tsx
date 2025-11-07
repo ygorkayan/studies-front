@@ -53,21 +53,21 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     state.currentCycleStartedAt,
   ]);
 
-  const start = () => {
+  const start = useCallback(() => {
     setIsCountdownRunning(true);
     setIsCountdownPaused(false);
     setCurrentCycleStartedAt(new Date());
-  };
+  }, [setIsCountdownRunning, setIsCountdownPaused, setCurrentCycleStartedAt]);
 
-  const pause = () => {
+  const pause = useCallback(() => {
     setIsCountdownPaused(true);
     setIsCountdownRunning(false);
-  };
+  }, [setIsCountdownPaused, setIsCountdownRunning]);
 
-  const resume = () => {
+  const resume = useCallback(() => {
     setIsCountdownRunning(true);
     setIsCountdownPaused(false);
-  };
+  }, [setIsCountdownRunning, setIsCountdownPaused]);
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
