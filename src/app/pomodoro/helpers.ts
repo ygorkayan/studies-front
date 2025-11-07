@@ -1,4 +1,4 @@
-import type { ActionDispatchType, Cycle, PomodoroActionType, PomodoroStateType } from "./types";
+import type { ActionDispatchType, Cycle, PomodoroActionType, PomodoroStateType, localStorageType } from "./types";
 
 export const TWENTY_FIVE_MINUTES_IN_SECONDS = 25 * 60;
 
@@ -6,13 +6,39 @@ export const FIVE_MINUTES_IN_SECONDS = 5 * 60;
 
 export const ONE_SECOND_IN_MILLISECONDS = 1000;
 
+export const EIGHT_HOURS_IN_MILLISECONDS = 1000 * 60 * 60 * 8;
+
+export const saveOnBrowser = (data: PomodoroStateType) => {
+  const newState: localStorageType = {
+    expirationDate: new Date().getTime() + EIGHT_HOURS_IN_MILLISECONDS,
+    value: data,
+  };
+
+  localStorage.setItem("pomodoroState", JSON.stringify(newState));
+};
+
+export const retrieveFromBrowser = (): PomodoroStateType | null => {
+  const data = localStorage.getItem("pomodoroState") ?? null;
+
+  if (!data) {
+    return null;
+  }
+
+  const parsedData: localStorageType = JSON.parse(data);
+
+  if (new Date().getTime() > parsedData.expirationDate) {
+    localStorage.removeItem("pomodoroState");
+    return null;
+  }
+
+  return parsedData.value;
+};
+
 export const getInitialPomodoroState: () => PomodoroStateType = () => {
-  // refactor to check expiration of stored state
-  const storedState = localStorage.getItem("pomodoroState");
+  const storedState = retrieveFromBrowser();
 
   if (storedState) {
-    const parsedState = JSON.parse(storedState) as PomodoroStateType;
-    return parsedState;
+    return storedState;
   } else {
     return {
       cycles: [],
@@ -60,7 +86,7 @@ export const handlerPomodoroState = (oldState: PomodoroStateType, action: Pomodo
     newState = { ...oldState, currentCycleStartedAt: action.payload as Date | null };
   }
 
-  localStorage.setItem("pomodoroState", JSON.stringify(newState));
+  saveOnBrowser(newState);
   return newState;
 };
 
@@ -78,11 +104,11 @@ export const handlerCycles = (dispatch: ActionDispatchType) => (value: Date) => 
   dispatch({ type: "cycles", payload: { id: generateUniqueId(), startedAt: value, finishedAt: new Date() } });
 };
 
-export const handlerDeleteCycle = (dispatch: ActionDispatchType) => (id: string) => {
+export const deleteCycle = (dispatch: ActionDispatchType) => (id: string) => {
   dispatch({ type: "delete-cycle", payload: id });
 };
 
-export const handlerDeleteAllCycles = (dispatch: ActionDispatchType) => () => {
+export const deleteAllCycles = (dispatch: ActionDispatchType) => () => {
   dispatch({ type: "delete-all-cycle" });
 };
 
@@ -104,11 +130,11 @@ export const handlerCycleStartedAt = (dispatch: ActionDispatchType) => (value: D
 
 export const handlers = (dispatch: ActionDispatchType) => {
   return {
-    handlerStudying: handlerStudying(dispatch),
     setCycle: handlerCycles(dispatch),
     setValue: handlerValues(dispatch),
-    handlerDeleteCycle: handlerDeleteCycle(dispatch),
-    handlerDeleteAllCycles: handlerDeleteAllCycles(dispatch),
+    deleteCycle: deleteCycle(dispatch),
+    deleteAllCycles: deleteAllCycles(dispatch),
+    handlerStudying: handlerStudying(dispatch),
     setIsCountdownPaused: handlerCountdownPaused(dispatch),
     setIsCountdownRunning: handlerCountdownRunning(dispatch),
     setCurrentCycleStartedAt: handlerCycleStartedAt(dispatch),

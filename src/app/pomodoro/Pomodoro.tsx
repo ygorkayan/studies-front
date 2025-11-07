@@ -4,85 +4,25 @@ import PomodoroDisplay from "./components/PomodoroDisplay/PomodoroDisplay";
 import PomodoroTable from "./components/PomodoroTable/PomodoroTable";
 import withPomodoro from "./withPomodoro";
 import type { PomodoroProps } from "./types";
-import { FIVE_MINUTES_IN_SECONDS, TWENTY_FIVE_MINUTES_IN_SECONDS } from "./helpers";
 import type { FC } from "react";
 
-export const Pomodoro: FC<PomodoroProps> = ({
-  setCycle,
-  setValue,
-  handlerStudying,
-  handlerDeleteCycle,
-  setIsCountdownPaused,
-  setIsCountdownRunning,
-  handlerDeleteAllCycles,
-  setCurrentCycleStartedAt,
-  state,
-}) => (
+export const Pomodoro: FC<PomodoroProps> = ({ state, start, pause, resume, done, deleteCycle, deleteAllCycles }) => (
   <div className={styles.container}>
     <PomodoroDisplay time={state.value} studying={state.studying} />
 
     <div className={styles["buttons-container"]}>
-      {!state.isCountdownRunning && !state.isCountdownPaused && (
-        <Button
-          onClick={() => {
-            setIsCountdownRunning(true);
-            setIsCountdownPaused(false);
-            setCurrentCycleStartedAt(new Date());
-          }}
-        >
-          Start
-        </Button>
-      )}
+      {!state.isCountdownRunning && !state.isCountdownPaused && <Button onClick={start}>Start</Button>}
 
-      {state.isCountdownRunning && !state.isCountdownPaused && (
-        <Button
-          onClick={() => {
-            setIsCountdownRunning(false);
-            setIsCountdownPaused(true);
-          }}
-        >
-          Pause
-        </Button>
-      )}
+      {state.isCountdownRunning && !state.isCountdownPaused && <Button onClick={pause}>Pause</Button>}
 
-      {state.isCountdownPaused && !state.isCountdownRunning && (
-        <Button
-          onClick={() => {
-            setIsCountdownRunning(true);
-            setIsCountdownPaused(false);
-          }}
-        >
-          Resume
-        </Button>
-      )}
+      {state.isCountdownPaused && !state.isCountdownRunning && <Button onClick={resume}>Resume</Button>}
 
-      <Button
-        disabled={!state.isCountdownRunning && !state.isCountdownPaused}
-        onClick={() => {
-          if (!state.currentCycleStartedAt) return;
-
-          const newStudying = !state.studying;
-          const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
-
-          if (state.studying) {
-            setCycle(state.currentCycleStartedAt);
-          }
-
-          handlerStudying(newStudying);
-          setIsCountdownRunning(false);
-          setIsCountdownPaused(false);
-          setValue(timeToWork);
-        }}
-      >
+      <Button disabled={!state.isCountdownRunning && !state.isCountdownPaused} onClick={done}>
         Done
       </Button>
     </div>
 
-    <PomodoroTable
-      cycles={state.cycles}
-      handlerDeleteCycle={handlerDeleteCycle}
-      handlerDeleteAllCycles={handlerDeleteAllCycles}
-    />
+    <PomodoroTable cycles={state.cycles} deleteCycle={deleteCycle} deleteAllCycles={deleteAllCycles} />
   </div>
 );
 

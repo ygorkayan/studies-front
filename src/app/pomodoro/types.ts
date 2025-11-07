@@ -7,9 +7,9 @@ export type Cycle = {
 };
 
 export type PomodoroStateType = {
-  studying: boolean;
-  cycles: Cycle[];
   value: number;
+  cycles: Cycle[];
+  studying: boolean;
   isCountdownPaused: boolean;
   isCountdownRunning: boolean;
   currentCycleStartedAt: Date | null;
@@ -35,12 +35,15 @@ export type withPomodoroType = (Component: FC<PomodoroProps>) => () => JSX.Eleme
 
 export type PomodoroProps = {
   state: PomodoroStateType;
-  handlerStudying: (studying: boolean) => void;
-  setCycle: (value: Date) => void;
-  setValue: (value: number) => void;
-  setIsCountdownPaused: (value: boolean) => void;
-  setIsCountdownRunning: (value: boolean) => void;
-  setCurrentCycleStartedAt: (value: Date) => void;
-  handlerDeleteCycle: (id: string) => void;
-  handlerDeleteAllCycles: () => void;
+  done: () => void;
+  start: () => void;
+  pause: () => void;
+  resume: () => void;
+  deleteAllCycles: () => void;
+  deleteCycle: (id: string) => void;
+};
+
+export type localStorageType = {
+  expirationDate: number;
+  value: PomodoroStateType;
 };
