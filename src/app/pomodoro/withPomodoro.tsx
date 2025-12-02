@@ -15,6 +15,7 @@ import type { PomodoroProps, withPomodoroType } from "./types";
 
 const TITLE = "Pomodoro";
 
+// eslint-disable-next-line react/display-name
 const withPomodoro: withPomodoroType = (Component) => () => {
   const [state, dispatch] = useReducer(handlerPomodoroState, getInitialPomodoroState());
 

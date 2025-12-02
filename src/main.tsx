@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router/dom";
 import "./global.css";
 import App from "./app/App";
 import Pomodoro from "./app/pomodoro/Pomodoro";
+import FlashCards from "./app/flash-cards/FlashCards";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/flash-cards",
-    element: <div>flash-cards</div>,
+    element: <FlashCards />,
   },
 ]);
 
