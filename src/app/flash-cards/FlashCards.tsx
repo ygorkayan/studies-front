@@ -1,11 +1,11 @@
 import type { FC } from "react";
 import styles from "./FlashCards.module.css";
 import Button from "../components/Button/Button";
-import type { FlashCardPros } from "./types";
+import type { FlashCardProps } from "./types";
 import withFlashCard from "./withFlashCard";
 import Loading from "../components/Loading/Loading";
 
-export const FlashCards: FC<FlashCardPros> = ({
+export const FlashCards: FC<FlashCardProps> = ({
   loading,
   question,
   revealAnswer,

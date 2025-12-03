@@ -6,7 +6,7 @@ export type Question = {
   showAnswer: boolean;
 };
 
-export interface FlashCardPros {
+export interface FlashCardProps {
   loading: boolean;
   question: Question;
   revealAnswer: () => void;
@@ -14,4 +14,4 @@ export interface FlashCardPros {
   questionIncorrect: () => void;
 }
 
-export type withFlashCards = (Component: FC<FlashCardPros>) => () => JSX.Element;
+export type withFlashCards = (Component: FC<FlashCardProps>) => () => JSX.Element;

@@ -14,7 +14,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
       setQuestion({
         question: "What is React?",
         answer:
-          "lorem ipsum dolor sit amet consectetur adipisicing elit. lore§m ipsum dolor sit amet consectetur adipisicing elit.",
+          "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
         showAnswer: false,
       });
     }, 1000);
@@ -37,7 +37,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
       setQuestion({
         question: "What is React?",
         answer:
-          "lorem ipsum dolor sit amet consectetur adipisicing elit. lore§m ipsum dolor sit amet consectetur adipisicing elit.",
+          "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
         showAnswer: false,
       });
     }, 1000);
@@ -50,7 +50,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
       setQuestion({
         question: "What is React?",
         answer:
-          "lorem ipsum dolor sit amet consectetur adipisicing elit. lore§m ipsum dolor sit amet consectetur adipisicing elit.",
+          "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
         showAnswer: false,
       });
     }, 1000);

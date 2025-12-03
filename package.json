@@ -9,12 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "jiti": "^2.6.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-router": "7.9.6"
   },
   "devDependencies": {
+    "jiti": "2.6.1",
     "@eslint/js": "9.39.1",
     "@types/react": "19.2.5",
     "@types/react-dom": "19.2.3",
