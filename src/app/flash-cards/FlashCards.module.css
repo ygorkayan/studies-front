@@ -1,0 +1,42 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  margin: 0 1rem;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  .content {
+    max-width: 520px;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-white);
+}
+
+.description {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--color-white);
+}
+
+.buttons {
+  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
