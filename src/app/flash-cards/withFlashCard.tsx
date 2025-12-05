@@ -1,60 +1,48 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import type { withFlashCards, Question } from "./types";
+import { getQuestion, answerQuestion } from "./helper";
 
 // eslint-disable-next-line react/display-name
 export const withFlashCard: withFlashCards = (Component) => () => {
   const [question, setQuestion] = useState<Question>({
+    id: 0,
     question: "",
     answer: "",
     showAnswer: false,
   });
 
-  useEffect(() => {
-    setTimeout(() => {
-      setQuestion({
-        question: "What is React?",
-        answer:
-          "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        showAnswer: false,
-      });
-    }, 1000);
-  }, []);
-
-  const resetQuestion = useCallback(() => {
+  const resetQuestion = () => {
     setQuestion({
+      id: 0,
       question: "",
       answer: "",
       showAnswer: false,
     });
+  };
+
+  const revealAnswer = () => setQuestion((prev) => ({ ...prev, showAnswer: true }));
+
+  const questionCorrected = async () => {
+    const id = question.id;
+    resetQuestion();
+
+    await answerQuestion(id, true);
+
+    getQuestion().then((data) => setQuestion({ ...data, showAnswer: false }));
+  };
+
+  const questionIncorrect = async () => {
+    const id = question.id;
+    resetQuestion();
+
+    await answerQuestion(id, false);
+
+    getQuestion().then((data) => setQuestion({ ...data, showAnswer: false }));
+  };
+
+  useEffect(() => {
+    getQuestion().then((data) => setQuestion({ ...data, showAnswer: false }));
   }, []);
-
-  const revealAnswer = useCallback(() => setQuestion((prev) => ({ ...prev, showAnswer: true })), []);
-
-  const questionCorrected = useCallback(() => {
-    resetQuestion();
-
-    setTimeout(() => {
-      setQuestion({
-        question: "What is React?",
-        answer:
-          "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        showAnswer: false,
-      });
-    }, 1000);
-  }, [resetQuestion]);
-
-  const questionIncorrect = useCallback(() => {
-    resetQuestion();
-
-    setTimeout(() => {
-      setQuestion({
-        question: "What is React?",
-        answer:
-          "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        showAnswer: false,
-      });
-    }, 1000);
-  }, [resetQuestion]);
 
   const loading = question.question === "" && question.answer === "";
 
