@@ -1,111 +1,100 @@
-import { useCallback, useEffect, useReducer } from "react";
-import { formatTime } from "./components/PomodoroDisplay/helpers";
+import { useEffect, useState } from "react";
+import type { Cycle, PomodoroProps, withPomodoroType } from "./types";
+import { TWENTY_FIVE_MINUTES_IN_SECONDS, FIVE_MINUTES_IN_SECONDS, generateUniqueId, playBeep } from "./helpers";
 
-import {
-  playBeep,
-  handlers,
-  handlerPomodoroState,
-  FIVE_MINUTES_IN_SECONDS,
-  getInitialPomodoroState,
-  ONE_SECOND_IN_MILLISECONDS,
-  TWENTY_FIVE_MINUTES_IN_SECONDS,
-} from "./helpers";
-
-import type { PomodoroProps, withPomodoroType } from "./types";
-
-const TITLE = "Pomodoro";
+let interval: number;
 
 // eslint-disable-next-line react/display-name
 const withPomodoro: withPomodoroType = (Component) => () => {
-  const [state, dispatch] = useReducer(handlerPomodoroState, getInitialPomodoroState());
+  const [studying, setStudying] = useState(true);
+  const [cycles, setCycles] = useState<Cycle[]>([]);
+  const [isCountdownPaused, setIsCountdownPaused] = useState(false);
+  const [value, setValue] = useState(TWENTY_FIVE_MINUTES_IN_SECONDS);
+  const [isCountdownRunning, setIsCountdownRunning] = useState(false);
 
-  const {
-    setCycle,
-    setValue,
-    deleteCycle,
-    deleteAllCycles,
-    handlerStudying,
-    setIsCountdownPaused,
-    setIsCountdownRunning,
-    setCurrentCycleStartedAt,
-  } = handlers(dispatch);
-
-  const done = useCallback(() => {
-    if (!state.currentCycleStartedAt) return;
-
-    const newStudying = !state.studying;
-    const timeToWork = newStudying ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS;
-
-    if (state.studying) {
-      setCycle(state.currentCycleStartedAt);
-    }
-
-    setValue(timeToWork);
+  const done = () => {
     setIsCountdownPaused(false);
-    handlerStudying(newStudying);
     setIsCountdownRunning(false);
-  }, [
-    setCycle,
-    setValue,
-    state.studying,
-    handlerStudying,
-    setIsCountdownPaused,
-    setIsCountdownRunning,
-    state.currentCycleStartedAt,
-  ]);
+    setStudying((oldState) => !oldState);
+    setValue(studying ? FIVE_MINUTES_IN_SECONDS : TWENTY_FIVE_MINUTES_IN_SECONDS);
 
-  const start = useCallback(() => {
+    if (studying) {
+      setCycles((oldCycles) => {
+        const newState = [
+          ...oldCycles,
+          {
+            id: generateUniqueId(),
+            finishedAt: new Date(),
+          },
+        ];
+
+        return newState;
+      });
+    }
+  };
+
+  const start = () => {
     setIsCountdownRunning(true);
     setIsCountdownPaused(false);
-    setCurrentCycleStartedAt(new Date());
-  }, [setIsCountdownRunning, setIsCountdownPaused, setCurrentCycleStartedAt]);
+  };
 
-  const pause = useCallback(() => {
+  const pause = () => {
     setIsCountdownPaused(true);
     setIsCountdownRunning(false);
-  }, [setIsCountdownPaused, setIsCountdownRunning]);
+  };
 
-  const resume = useCallback(() => {
-    setIsCountdownRunning(true);
+  const resume = () => {
     setIsCountdownPaused(false);
-  }, [setIsCountdownRunning, setIsCountdownPaused]);
+    setIsCountdownRunning(true);
+  };
+
+  const deleteCycle = (id: string) => {
+    setCycles((oldCycles) => oldCycles.filter((cycle) => cycle.id !== id));
+  };
+
+  const deleteAllCycles = () => {
+    setCycles([]);
+  };
 
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout> | null = null;
-
-    if (!state.isCountdownRunning || state.isCountdownPaused || !state.currentCycleStartedAt) {
-      document.title = TITLE;
-
+    if (!isCountdownRunning || isCountdownPaused) {
       return;
     }
 
-    if (state.value <= 0) {
-      done();
+    interval = setInterval(() => {
+      setValue((oldValue) => {
+        if (oldValue === 0) {
+          done();
 
-      playBeep();
-      alert("Pomodoro cycle completed!");
-      return;
-    }
+          playBeep();
+          const textWhenStudying = "Study session completed! Time for a break.";
+          const textWhenOnBreak = "Break session completed! Time to study.";
+          alert(studying ? textWhenStudying : textWhenOnBreak);
 
-    timeout = setTimeout(() => {
-      const oldValue = state.value;
-      const newValue = oldValue - 1;
+          return oldValue;
+        }
 
-      document.title = `${TITLE} - ${formatTime(newValue)}`;
-      setValue(newValue);
-    }, ONE_SECOND_IN_MILLISECONDS);
+        return oldValue - 1;
+      });
+    }, 1000);
 
-    return () => clearTimeout(timeout);
-  }, [done, setValue, state.value, state.isCountdownPaused, state.isCountdownRunning, state.currentCycleStartedAt]);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isCountdownRunning, isCountdownPaused]);
 
   const props: PomodoroProps = {
-    state,
+    done,
     start,
     pause,
+    value,
     resume,
-    done,
+    cycles,
+    studying,
     deleteCycle,
     deleteAllCycles,
+    isCountdownPaused,
+    isCountdownRunning,
   };
 
   return <Component {...props} />;

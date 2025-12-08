@@ -6,23 +6,35 @@ import withPomodoro from "./withPomodoro";
 import type { PomodoroProps } from "./types";
 import type { FC } from "react";
 
-export const Pomodoro: FC<PomodoroProps> = ({ state, start, pause, resume, done, deleteCycle, deleteAllCycles }) => (
+export const Pomodoro: FC<PomodoroProps> = ({
+  done,
+  start,
+  pause,
+  value,
+  resume,
+  cycles,
+  studying,
+  deleteCycle,
+  deleteAllCycles,
+  isCountdownPaused,
+  isCountdownRunning,
+}) => (
   <div className={styles.container}>
-    <PomodoroDisplay time={state.value} studying={state.studying} />
+    <PomodoroDisplay time={value} studying={studying} />
 
     <div className={styles["buttons-container"]}>
-      {!state.isCountdownRunning && !state.isCountdownPaused && <Button onClick={start}>Start</Button>}
+      {!isCountdownRunning && !isCountdownPaused && <Button onClick={start}>Start</Button>}
 
-      {state.isCountdownRunning && !state.isCountdownPaused && <Button onClick={pause}>Pause</Button>}
+      {isCountdownRunning && !isCountdownPaused && <Button onClick={pause}>Pause</Button>}
 
-      {state.isCountdownPaused && !state.isCountdownRunning && <Button onClick={resume}>Resume</Button>}
+      {isCountdownPaused && !isCountdownRunning && <Button onClick={resume}>Resume</Button>}
 
-      <Button disabled={!state.isCountdownRunning && !state.isCountdownPaused} onClick={done}>
+      <Button disabled={!isCountdownRunning && !isCountdownPaused} onClick={done}>
         Done
       </Button>
     </div>
 
-    <PomodoroTable cycles={state.cycles} deleteCycle={deleteCycle} deleteAllCycles={deleteAllCycles} />
+    <PomodoroTable cycles={cycles} deleteCycle={deleteCycle} deleteAllCycles={deleteAllCycles} />
   </div>
 );
 
