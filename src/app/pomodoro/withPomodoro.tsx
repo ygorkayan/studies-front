@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import type { Cycle, PomodoroProps, withPomodoroType } from "./types";
 import { TWENTY_FIVE_MINUTES_IN_SECONDS, FIVE_MINUTES_IN_SECONDS, generateUniqueId, playBeep } from "./helpers";
 
-let interval: number;
-
 // eslint-disable-next-line react/display-name
 const withPomodoro: withPomodoroType = (Component) => () => {
   const [studying, setStudying] = useState(true);
@@ -61,7 +59,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
       return;
     }
 
-    interval = setInterval(() => {
+    const interval = setInterval(() => {
       setValue((oldValue) => {
         if (oldValue === 0) {
           done();
@@ -78,10 +76,8 @@ const withPomodoro: withPomodoroType = (Component) => () => {
       });
     }, 1000);
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isCountdownRunning, isCountdownPaused]);
+    return () => clearInterval(interval);
+  }, [isCountdownRunning, isCountdownPaused, studying, done]);
 
   const props: PomodoroProps = {
     done,
