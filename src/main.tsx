@@ -22,6 +22,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+// when use StrictMode, useEffect is called twice in development mode, it bugs the pomodoro timer!
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
