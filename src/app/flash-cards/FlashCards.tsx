@@ -5,13 +5,7 @@ import type { FlashCardProps } from "./types";
 import withFlashCard from "./withFlashCard";
 import Loading from "../components/Loading/Loading";
 
-export const FlashCards: FC<FlashCardProps> = ({
-  loading,
-  question,
-  revealAnswer,
-  questionCorrected,
-  questionIncorrect,
-}) => {
+export const FlashCards: FC<FlashCardProps> = ({ loading, question, revealAnswer, handleAnswer }) => {
   if (loading) {
     return (
       <div className={styles.container}>
@@ -30,9 +24,9 @@ export const FlashCards: FC<FlashCardProps> = ({
         <div className={styles.buttons}>
           {!question.showAnswer && <Button onClick={revealAnswer}>Show Answer</Button>}
 
-          {question.showAnswer && <Button onClick={questionCorrected}>Correct</Button>}
+          {question.showAnswer && <Button onClick={() => handleAnswer(true)}>Correct</Button>}
 
-          {question.showAnswer && <Button onClick={questionIncorrect}>Incorrect</Button>}
+          {question.showAnswer && <Button onClick={() => handleAnswer(false)}>Incorrect</Button>}
         </div>
       </div>
     </div>

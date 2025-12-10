@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Cycle, PomodoroProps, withPomodoroType } from "./types";
 import { TWENTY_FIVE_MINUTES_IN_SECONDS, FIVE_MINUTES_IN_SECONDS, generateUniqueId, playBeep } from "./helpers";
+import { formatTime } from "./components/PomodoroDisplay/helpers";
 
 // eslint-disable-next-line react/display-name
 const withPomodoro: withPomodoroType = (Component) => () => {
@@ -61,6 +62,8 @@ const withPomodoro: withPomodoroType = (Component) => () => {
 
     const interval = setInterval(() => {
       setValue((oldValue) => {
+        document.title = `${formatTime(oldValue - 1)} - Pomodoro Timer`;
+
         if (oldValue === 0) {
           done();
 
