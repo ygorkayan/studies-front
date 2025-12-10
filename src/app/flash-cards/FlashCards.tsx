@@ -5,7 +5,7 @@ import type { FlashCardProps } from "./types";
 import withFlashCard from "./withFlashCard";
 import Loading from "../components/Loading/Loading";
 
-export const FlashCards: FC<FlashCardProps> = ({ loading, question, revealAnswer, handleAnswer }) => {
+export const FlashCards: FC<FlashCardProps> = ({ id, loading, question, revealAnswer, handleAnswer }) => {
   if (loading) {
     return (
       <div className={styles.container}>
@@ -17,7 +17,9 @@ export const FlashCards: FC<FlashCardProps> = ({ loading, question, revealAnswer
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>{question.showAnswer ? "Answer" : "Question"}</h1>
+        <h1 className={styles.title}>
+          {question.showAnswer ? "Answer" : "Question"} - {id}
+        </h1>
 
         <span className={styles.description}>{question.showAnswer ? question.answer : question.question}</span>
 

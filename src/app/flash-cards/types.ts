@@ -8,6 +8,7 @@ export type Question = {
 };
 
 export interface FlashCardProps {
+  id: number;
   loading: boolean;
   question: Question;
   revealAnswer: () => void;

@@ -28,7 +28,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
 
     await answerQuestion(id, correct);
     const data = await getQuestion();
-    
+
     setQuestion({ ...data, showAnswer: false });
   };
 
@@ -38,7 +38,15 @@ export const withFlashCard: withFlashCards = (Component) => () => {
 
   const loading = question.question === "" && question.answer === "";
 
-  return <Component loading={loading} question={question} handleAnswer={handleAnswer} revealAnswer={revealAnswer} />;
+  return (
+    <Component
+      id={question.id}
+      loading={loading}
+      question={question}
+      handleAnswer={handleAnswer}
+      revealAnswer={revealAnswer}
+    />
+  );
 };
 
 export default withFlashCard;
