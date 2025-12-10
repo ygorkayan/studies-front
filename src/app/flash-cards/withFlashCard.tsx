@@ -22,22 +22,14 @@ export const withFlashCard: withFlashCards = (Component) => () => {
 
   const revealAnswer = () => setQuestion((prev) => ({ ...prev, showAnswer: true }));
 
-  const questionCorrected = async () => {
+  const handleAnswer = async (correct: boolean) => {
     const id = question.id;
     resetQuestion();
 
-    await answerQuestion(id, true);
-
-    getQuestion().then((data) => setQuestion({ ...data, showAnswer: false }));
-  };
-
-  const questionIncorrect = async () => {
-    const id = question.id;
-    resetQuestion();
-
-    await answerQuestion(id, false);
-
-    getQuestion().then((data) => setQuestion({ ...data, showAnswer: false }));
+    await answerQuestion(id, correct);
+    const data = await getQuestion();
+    
+    setQuestion({ ...data, showAnswer: false });
   };
 
   useEffect(() => {
@@ -46,15 +38,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
 
   const loading = question.question === "" && question.answer === "";
 
-  return (
-    <Component
-      loading={loading}
-      question={question}
-      revealAnswer={revealAnswer}
-      questionCorrected={questionCorrected}
-      questionIncorrect={questionIncorrect}
-    />
-  );
+  return <Component loading={loading} question={question} handleAnswer={handleAnswer} revealAnswer={revealAnswer} />;
 };
 
 export default withFlashCard;

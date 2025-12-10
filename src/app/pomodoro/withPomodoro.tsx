@@ -62,7 +62,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
 
     const interval = setInterval(() => {
       setValue((oldValue) => {
-        document.title = `${formatTime(oldValue)} - Pomodoro Timer`;
+        document.title = `${formatTime(oldValue - 1)} - Pomodoro Timer`;
 
         if (oldValue === 0) {
           done();

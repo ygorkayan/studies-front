@@ -2,6 +2,11 @@ const URL_BASE = "https://studies-back.ygorkayan.workers.dev/question";
 
 export const getQuestion = async () => {
   const res = await fetch(URL_BASE);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch question: ${res.status} ${res.statusText}`);
+  }
+  
   const json = await res.json();
 
   return json.body;

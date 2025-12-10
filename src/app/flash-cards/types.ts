@@ -11,8 +11,7 @@ export interface FlashCardProps {
   loading: boolean;
   question: Question;
   revealAnswer: () => void;
-  questionCorrected: () => void;
-  questionIncorrect: () => void;
+  handleAnswer: (correct: boolean) => void;
 }
 
 export type withFlashCards = (Component: FC<FlashCardProps>) => () => JSX.Element;
