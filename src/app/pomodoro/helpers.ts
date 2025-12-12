@@ -2,7 +2,11 @@ export const TWENTY_FIVE_MINUTES_IN_SECONDS = 25 * 60;
 
 export const FIVE_MINUTES_IN_SECONDS = 5 * 60;
 
-export const ONE_SECOND_IN_MILLISECONDS = 1000;
+export const nowPlus = (time: number) => {
+  const now = new Date();
+  now.setSeconds(now.getSeconds() + time);
+  return now;
+};
 
 export const generateUniqueId = (): string => {
   const timestamp = Date.now().toString(36);
