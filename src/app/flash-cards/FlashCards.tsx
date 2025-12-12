@@ -3,7 +3,7 @@ import styles from "./FlashCards.module.css";
 import Button from "../components/Button/Button";
 import type { FlashCardProps } from "./types";
 import withFlashCard from "./withFlashCard";
-import Loading from "../components/Loading/Loading";
+import Loading from "./components/Loading/Loading";
 
 export const FlashCards: FC<FlashCardProps> = ({ id, loading, question, revealAnswer, handleAnswer }) => {
   if (loading) {

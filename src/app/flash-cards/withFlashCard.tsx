@@ -11,20 +11,16 @@ export const withFlashCard: withFlashCards = (Component) => () => {
     showAnswer: false,
   });
 
-  const resetQuestion = () => {
+  const revealAnswer = () => setQuestion((prev) => ({ ...prev, showAnswer: true }));
+
+  const handleAnswer = async (correct: boolean) => {
+    const id = question.id;
     setQuestion({
       id: 0,
       question: "",
       answer: "",
       showAnswer: false,
     });
-  };
-
-  const revealAnswer = () => setQuestion((prev) => ({ ...prev, showAnswer: true }));
-
-  const handleAnswer = async (correct: boolean) => {
-    const id = question.id;
-    resetQuestion();
 
     await answerQuestion(id, correct);
     const data = await getQuestion();
@@ -33,6 +29,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
   };
 
   useEffect(() => {
+    document.title = "Flash Cards";
     getQuestion().then((data) => setQuestion({ ...data, showAnswer: false }));
   }, []);
 
