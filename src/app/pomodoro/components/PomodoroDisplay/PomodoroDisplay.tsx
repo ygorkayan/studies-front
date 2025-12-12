@@ -1,13 +1,12 @@
 import styles from "./PomodoroDisplay.module.css";
 import type { FC } from "react";
-import { formatTime } from "./helpers";
 
-export const PomodoroDisplay: FC<{ time: number; studying: boolean }> = ({ time, studying }) => (
+export const PomodoroDisplay: FC<{ studying: boolean; time: string }> = ({ studying, time }) => (
   <div
     style={{ color: studying ? "var(--color-white)" : "var(--color-green)" }}
     className={styles["countdown-container"]}
   >
-    {formatTime(time)}
+    {time}
   </div>
 );
 

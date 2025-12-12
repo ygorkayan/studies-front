@@ -8,15 +8,15 @@ export type Cycle = {
 export type withPomodoroType = (Component: FC<PomodoroProps>) => () => JSX.Element;
 
 export type PomodoroProps = {
-  value: number;
+  time: string;
   cycles: Cycle[];
+  isStart: boolean;
   done: () => void;
   start: () => void;
   studying: boolean;
   pause: () => void;
   resume: () => void;
-  isCountdownPaused: boolean;
-  isCountdownRunning: boolean;
+  isRunning: boolean;
   deleteAllCycles: () => void;
   deleteCycle: (id: string) => void;
 };

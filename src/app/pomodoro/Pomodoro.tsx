@@ -7,29 +7,29 @@ import type { PomodoroProps } from "./types";
 import type { FC } from "react";
 
 export const Pomodoro: FC<PomodoroProps> = ({
+  time,
   done,
   start,
   pause,
-  value,
   resume,
   cycles,
+  isStart,
   studying,
+  isRunning,
   deleteCycle,
   deleteAllCycles,
-  isCountdownPaused,
-  isCountdownRunning,
 }) => (
   <div className={styles.container}>
-    <PomodoroDisplay time={value} studying={studying} />
+    <PomodoroDisplay time={time} studying={studying} />
 
     <div className={styles["buttons-container"]}>
-      {!isCountdownRunning && !isCountdownPaused && <Button onClick={start}>Start</Button>}
+      {isStart && <Button onClick={start}>Start</Button>}
 
-      {isCountdownRunning && !isCountdownPaused && <Button onClick={pause}>Pause</Button>}
+      {isRunning && <Button onClick={pause}>Pause</Button>}
 
-      {isCountdownPaused && !isCountdownRunning && <Button onClick={resume}>Resume</Button>}
+      {!isRunning && !isStart && <Button onClick={resume}>Resume</Button>}
 
-      <Button disabled={!isCountdownRunning && !isCountdownPaused} onClick={done}>
+      <Button disabled={isStart} onClick={done}>
         Done
       </Button>
     </div>
