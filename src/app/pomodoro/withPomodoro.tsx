@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Cycle, PomodoroProps, withPomodoroType } from "./types";
-import { useTimer } from "react-timer-hook";
+import useTimer from "./useTimer";
 
 import {
   nowPlus,
