@@ -5,16 +5,16 @@
   font-family: "Roboto", sans-serif;
 }
 
-body {
-  background-color: var(--color-back);
-}
-
 :root {
-  --font-size-default: 1rem;
   --font-size-big: 8rem;
-  --border-radius-default: 8px;
   --color-white: #fff;
   --color-back: #313131;
   --color-green: #4caf50;
+  --font-size-default: 1rem;
+  --border-radius-default: 8px;
   --border-default: 2px solid var(--color-white);
+}
+
+body {
+  background-color: var(--color-back);
 }
