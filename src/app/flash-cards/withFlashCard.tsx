@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { withFlashCards, Question } from "./types";
 import { getQuestion, answerQuestion } from "./helper";
 
@@ -11,22 +11,26 @@ export const withFlashCard: withFlashCards = (Component) => () => {
     showAnswer: false,
   });
 
-  const revealAnswer = () => setQuestion((prev) => ({ ...prev, showAnswer: true }));
+  const revealAnswer = useCallback(() => setQuestion((prev) => ({ ...prev, showAnswer: true })), []);
 
-  const handleAnswer = async (correct: boolean) => {
-    const id = question.id;
-    setQuestion({
-      id: 0,
-      question: "",
-      answer: "",
-      showAnswer: false,
-    });
+  const handleAnswer = useCallback(
+    async (correct: boolean) => {
+      const id = question.id;
 
-    await answerQuestion(id, correct);
-    const data = await getQuestion();
+      setQuestion({
+        id: 0,
+        question: "",
+        answer: "",
+        showAnswer: false,
+      });
 
-    setQuestion({ ...data, showAnswer: false });
-  };
+      await answerQuestion(id, correct);
+      const data = await getQuestion();
+
+      setQuestion({ ...data, showAnswer: false });
+    },
+    [question.id]
+  );
 
   useEffect(() => {
     document.title = "Flash Cards";

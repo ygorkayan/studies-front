@@ -2,8 +2,8 @@ import type { FC, JSX } from "react";
 
 export type Question = {
   id: number;
-  question: string;
   answer: string;
+  question: string;
   showAnswer: boolean;
 };
 

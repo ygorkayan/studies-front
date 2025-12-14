@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { Cycle, PomodoroProps, withPomodoroType } from "./types";
 import useTimer from "./useTimer";
 
@@ -16,7 +16,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
   const [studying, setStudying] = useState(true);
   const [cycles, setCycles] = useState<Cycle[]>([]);
 
-  const done = () => {
+  const done = useCallback(() => {
     setIsStart(true);
 
     setStudying((oldState) => {
@@ -40,7 +40,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
 
       return newState;
     });
-  };
+  }, []);
 
   const { minutes, seconds, start, pause, resume, restart, isRunning } = useTimer({
     autoStart: false,
@@ -51,18 +51,18 @@ const withPomodoro: withPomodoroType = (Component) => () => {
     },
   });
 
-  const deleteCycle = (id: string) => {
+  const deleteCycle = useCallback((id: string) => {
     setCycles((oldCycles) => oldCycles.filter((cycle) => cycle.id !== id));
-  };
+  }, []);
 
-  const deleteAllCycles = () => {
+  const deleteAllCycles = useCallback(() => {
     setCycles([]);
-  };
+  }, []);
 
-  const internalStart = () => {
+  const internalStart = useCallback(() => {
     setIsStart(false);
     start();
-  };
+  }, [start]);
 
   const time = `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 
