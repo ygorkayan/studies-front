@@ -44,6 +44,6 @@ export const answerQuestion = async (id: number, correct: boolean) => {
   }
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch question: ${response.status} ${response.statusText}`);
+    throw new Error(`Failed to answer question: ${response.status} ${response.statusText}`);
   }
 };

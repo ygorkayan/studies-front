@@ -27,7 +27,6 @@ export const Input: FC<InputProps> = ({ label, value, onChange, type = "text" })
         className={styles.input}
         onChange={(event) => {
           onChange?.(event?.target?.value);
-          event.preventDefault();
         }}
       />
     </div>

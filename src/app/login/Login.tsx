@@ -9,10 +9,6 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
   const [password, setPassword] = useState("");
   const token = localStorage.getItem("token");
 
-  if (token) {
-    return <>{children}</>;
-  }
-
   const tryLogin = useCallback(async () => {
     const result = await login(user, password);
 
@@ -24,6 +20,10 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
       setPassword("");
     }
   }, [user, password]);
+
+  if (token) {
+    return <>{children}</>;
+  }
 
   return (
     <div className={styles.container}>
