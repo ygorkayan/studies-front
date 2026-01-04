@@ -7,6 +7,8 @@ import { login } from "./helper";
 export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const [showError, setShowError] = useState(false);
+
   const token = localStorage.getItem("token");
 
   const tryLogin = useCallback(async () => {
@@ -18,6 +20,7 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
     } else {
       setUser("");
       setPassword("");
+      setShowError(true);
     }
   }, [user, password]);
 
@@ -27,6 +30,12 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
 
   return (
     <div className={styles.container}>
+      {showError && (
+        <div className={styles.error}>
+          <p>Login failed. Please check your credentials.</p>
+        </div>
+      )}
+
       <main className={styles.login}>
         <h1 className={styles.title}>Login</h1>
 
