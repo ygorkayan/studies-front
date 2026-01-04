@@ -6,6 +6,7 @@
 }
 
 :root {
+  --color-red: #f44336;
   --font-size-big: 8rem;
   --font-size-default: 1rem;
   --color-white: #fff;

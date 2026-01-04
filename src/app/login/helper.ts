@@ -10,7 +10,6 @@ export const login = async (user: string, password: string) => {
   });
 
   if (!response.ok) {
-    alert("Login failed. Please check your credentials.");
     return { logged: false, token: "" };
   }
 
