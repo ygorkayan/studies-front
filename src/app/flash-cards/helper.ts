@@ -7,12 +7,11 @@ export const getQuestion = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ token }),
+      "token": token || ""
+    }
   });
 
   if (res.status === 401) {
-    alert("Your session has expired. Please log in again.");
     localStorage.removeItem("token");
     window.location.reload();
   }
@@ -33,12 +32,12 @@ export const answerQuestion = async (id: number, correct: boolean) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      "token": token || ""
     },
-    body: JSON.stringify({ answer: correct ? "correct" : "incorrect", token }),
+    body: JSON.stringify({ answer: correct ? "correct" : "incorrect" }),
   });
 
   if (response.status === 401) {
-    alert("Your session has expired. Please log in again.");
     localStorage.removeItem("token");
     window.location.reload();
   }
