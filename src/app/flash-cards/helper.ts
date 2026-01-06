@@ -7,8 +7,8 @@ export const getQuestion = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "token": token || ""
-    }
+      token: token || "",
+    },
   });
 
   if (res.status === 401) {
@@ -32,9 +32,9 @@ export const answerQuestion = async (id: number, correct: boolean) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "token": token || ""
+      token: token || "",
     },
-    body: JSON.stringify({ answer: correct ? "correct" : "incorrect" }),
+    body: JSON.stringify({ controller: correct ? "correct" : "incorrect" }),
   });
 
   if (response.status === 401) {
