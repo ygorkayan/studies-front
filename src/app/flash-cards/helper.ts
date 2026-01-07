@@ -1,3 +1,5 @@
+import type { bodyAnswer } from "./types";
+
 const URL_BASE = "https://studies-back.ygorkayan.workers.dev/question";
 
 export const getQuestion = async () => {
@@ -25,7 +27,8 @@ export const getQuestion = async () => {
   return json.body;
 };
 
-export const answerQuestion = async (id: number, correct: boolean) => {
+export const answerQuestion = async (id: number, body: bodyAnswer) => {
+
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${URL_BASE}/${id}`, {
@@ -34,7 +37,7 @@ export const answerQuestion = async (id: number, correct: boolean) => {
       "Content-Type": "application/json",
       token: token || "",
     },
-    body: JSON.stringify({ controller: correct ? "correct" : "incorrect" }),
+    body: JSON.stringify(body),
   });
 
   if (response.status === 401) {

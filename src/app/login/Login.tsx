@@ -36,7 +36,13 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
         </div>
       )}
 
-      <main className={styles.login}>
+      <form
+        className={styles.login}
+        onSubmit={(e) => {
+          e.preventDefault();
+          tryLogin();
+        }}
+      >
         <h1 className={styles.title}>Login</h1>
 
         <div className={styles["mb-1"]}>
@@ -50,7 +56,7 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
         <div className={styles.button}>
           <Button onClick={() => tryLogin()}>Login</Button>
         </div>
-      </main>
+      </form>
     </div>
   );
 };

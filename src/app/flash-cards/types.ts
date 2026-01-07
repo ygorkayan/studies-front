@@ -11,8 +11,17 @@ export interface FlashCardProps {
   id: number;
   loading: boolean;
   question: Question;
+  isEditMode: boolean;
+  startEditing: () => void;
   revealAnswer: () => void;
-  handleAnswer: (correct: boolean) => void;
+  cancelEditing: () => void;
+  saveQuestion: (body: bodyAnswer) => void;
+}
+
+export interface bodyAnswer {
+  question?: string;
+  answer?: string;
+  controller?: "correct" | "incorrect";
 }
 
 export type withFlashCards = (Component: FC<FlashCardProps>) => () => JSX.Element;

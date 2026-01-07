@@ -1,11 +1,25 @@
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import styles from "./FlashCards.module.css";
 import Button from "../components/Button/Button";
 import type { FlashCardProps } from "./types";
 import withFlashCard from "./withFlashCard";
 import Loading from "./components/Loading/Loading";
+import Edit from "./edit.svg";
+import Textarea from "../components/Textarea/Textarea";
 
-export const FlashCards: FC<FlashCardProps> = ({ id, loading, question, revealAnswer, handleAnswer }) => {
+export const FlashCards: FC<FlashCardProps> = ({
+  id,
+  loading,
+  question,
+  isEditMode,
+  saveQuestion,
+  startEditing,
+  revealAnswer,
+  cancelEditing,
+}) => {
+  const [editedQuestion, setEditedQuestion] = useState("");
+  const [editedAnswer, setEditedAnswer] = useState("");
+
   if (loading) {
     return (
       <div className={styles.container}>
@@ -14,21 +28,63 @@ export const FlashCards: FC<FlashCardProps> = ({ id, loading, question, revealAn
     );
   }
 
+  const currentQuestion = editedQuestion || question.question;
+  const currentAnswer = editedAnswer || question.answer;
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <h1 className={styles.title}>
-          {question.showAnswer ? "Answer" : "Question"} - {id}
+          Question - {id} <img src={Edit} alt="Edit" className={styles.edit} onClick={startEditing} />
         </h1>
 
-        <span className={styles.description}>{question.showAnswer ? question.answer : question.question}</span>
+        <div className={styles["question-container"]}>
+          {!isEditMode && <span>{currentQuestion}</span>}
+
+          {question.showAnswer && !isEditMode && <span>{currentAnswer}</span>}
+
+          {isEditMode && <Textarea defaultValue={currentQuestion} onChange={setEditedQuestion} />}
+
+          {isEditMode && (
+            <Textarea defaultValue={currentAnswer} width="400px" height="250px" onChange={setEditedAnswer} />
+          )}
+        </div>
 
         <div className={styles.buttons}>
-          {!question.showAnswer && <Button onClick={revealAnswer}>Show Answer</Button>}
+          {isEditMode && (
+            <Button
+              onClick={() => {
+                saveQuestion({ question: currentQuestion, answer: currentAnswer });
+                cancelEditing();
+                setEditedQuestion("");
+                setEditedAnswer("");
+              }}
+            >
+              Save
+            </Button>
+          )}
 
-          {question.showAnswer && <Button onClick={() => handleAnswer(true)}>Correct</Button>}
+          {isEditMode && (
+            <Button
+              onClick={() => {
+                cancelEditing();
+                setEditedQuestion("");
+                setEditedAnswer("");
+              }}
+            >
+              Cancel
+            </Button>
+          )}
 
-          {question.showAnswer && <Button onClick={() => handleAnswer(false)}>Incorrect</Button>}
+          {!question.showAnswer && !isEditMode && <Button onClick={revealAnswer}>Show Answer</Button>}
+
+          {question.showAnswer && !isEditMode && (
+            <Button onClick={() => saveQuestion({ controller: "correct" })}>Correct</Button>
+          )}
+
+          {question.showAnswer && !isEditMode && (
+            <Button onClick={() => saveQuestion({ controller: "incorrect" })}>Incorrect</Button>
+          )}
         </div>
       </div>
     </div>
