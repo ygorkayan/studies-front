@@ -46,7 +46,7 @@ export const FlashCards: FC<FlashCardProps> = ({
           {isEditMode && <Textarea value={currentQuestion} onChange={setEditedQuestion} />}
 
           {isEditMode && (
-            <Textarea value={currentAnswer} width="min(400px, 100%)" height="250px" onChange={setEditedAnswer} />
+            <Textarea value={currentAnswer} width="min(400px, 100vw)" height="250px" onChange={setEditedAnswer} />
           )}
         </div>
 
