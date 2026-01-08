@@ -15,10 +15,10 @@ export interface FlashCardProps {
   startEditing: () => void;
   revealAnswer: () => void;
   cancelEditing: () => void;
-  saveQuestion: (body: bodyAnswer) => void;
+  saveQuestion: (body: BodyAnswer) => void;
 }
 
-export interface bodyAnswer {
+export interface BodyAnswer {
   question?: string;
   answer?: string;
   controller?: "correct" | "incorrect";

@@ -4,15 +4,15 @@ import styles from "./Text.module.css";
 interface TextareaProps {
   width?: string;
   height?: string;
-  defaultValue?: string;
+  value?: string;
   onChange?: (value: string) => void;
 }
 
-const Textarea: FC<TextareaProps> = ({ defaultValue, width, height, onChange = () => {} }) => (
+const Textarea: FC<TextareaProps> = ({ value, width, height, onChange = () => {} }) => (
   <textarea
-    className={styles.textarea}
+    value={value}
     style={{ width, height }}
-    defaultValue={defaultValue}
+    className={styles.textarea}
     onChange={(e) => onChange(e.target.value)}
   />
 );

@@ -1,4 +1,4 @@
-import type { bodyAnswer } from "./types";
+import type { BodyAnswer } from "./types";
 
 const URL_BASE = "https://studies-back.ygorkayan.workers.dev/question";
 
@@ -27,7 +27,7 @@ export const getQuestion = async () => {
   return json.body;
 };
 
-export const answerQuestion = async (id: number, body: bodyAnswer) => {
+export const answerQuestion = async (id: number, body: BodyAnswer) => {
 
   const token = localStorage.getItem("token");
 

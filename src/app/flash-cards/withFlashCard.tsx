@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import type { withFlashCards, Question, bodyAnswer } from "./types";
+import type { withFlashCards, Question, BodyAnswer } from "./types";
 import { getQuestion, answerQuestion } from "./helper";
 
 // eslint-disable-next-line react/display-name
@@ -15,7 +15,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
   const revealAnswer = useCallback(() => setQuestion((prev) => ({ ...prev, showAnswer: true })), []);
 
   const saveQuestion = useCallback(
-    async (body: bodyAnswer) => {
+    async (body: BodyAnswer) => {
       const id = question.id;
 
       setQuestion({
@@ -28,6 +28,7 @@ export const withFlashCard: withFlashCards = (Component) => () => {
       await answerQuestion(id, body);
       const data = await getQuestion();
 
+      setIsEditMode(false);
       setQuestion({ ...data, showAnswer: false });
     },
     [question.id]
