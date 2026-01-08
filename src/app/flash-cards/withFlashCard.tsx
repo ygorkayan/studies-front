@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import type { withFlashCards, Question } from "./types";
+import type { withFlashCards, Question, BodyAnswer } from "./types";
 import { getQuestion, answerQuestion } from "./helper";
 
 // eslint-disable-next-line react/display-name
 export const withFlashCard: withFlashCards = (Component) => () => {
+  const [isEditMode, setIsEditMode] = useState(false);
   const [question, setQuestion] = useState<Question>({
     id: 0,
     question: "",
@@ -13,8 +14,8 @@ export const withFlashCard: withFlashCards = (Component) => () => {
 
   const revealAnswer = useCallback(() => setQuestion((prev) => ({ ...prev, showAnswer: true })), []);
 
-  const handleAnswer = useCallback(
-    async (correct: boolean) => {
+  const saveQuestion = useCallback(
+    async (body: BodyAnswer) => {
       const id = question.id;
 
       setQuestion({
@@ -24,9 +25,10 @@ export const withFlashCard: withFlashCards = (Component) => () => {
         showAnswer: false,
       });
 
-      await answerQuestion(id, correct);
+      await answerQuestion(id, body);
       const data = await getQuestion();
 
+      setIsEditMode(false);
       setQuestion({ ...data, showAnswer: false });
     },
     [question.id]
@@ -44,8 +46,11 @@ export const withFlashCard: withFlashCards = (Component) => () => {
       id={question.id}
       loading={loading}
       question={question}
-      handleAnswer={handleAnswer}
+      isEditMode={isEditMode}
+      saveQuestion={saveQuestion}
       revealAnswer={revealAnswer}
+      startEditing={() => setIsEditMode(true)}
+      cancelEditing={() => setIsEditMode(false)}
     />
   );
 };

@@ -1,16 +1,8 @@
-.input {
-  width: 100%;
-  padding: 8px;
+.textarea {
+  padding: 16px;
   background: none;
   color: var(--color-white);
   border: var(--border-default);
   font-size: var(--font-size-default);
   border-radius: var(--border-radius-default);
-}
-
-.label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--color-white);
-  font-size: var(--font-size-default);
 }

@@ -8,7 +8,7 @@ export interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({ children, onClick, disabled }) => (
-  <button className={styles.button} onClick={onClick} disabled={disabled}>
+  <button type="button" className={styles.button} onClick={onClick} disabled={disabled}>
     {children}
   </button>
 );
