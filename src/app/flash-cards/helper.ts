@@ -6,7 +6,7 @@ export const getQuestion = async () => {
   const token = localStorage.getItem("token");
 
   const res = await fetch(URL_BASE, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       token: token || "",
