@@ -2,7 +2,7 @@ import styles from "./Login.module.css";
 import { type FC, type JSX, useCallback, useState } from "react";
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
-import { login } from "./helper";
+import { login } from "./service";
 
 export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
   const [user, setUser] = useState("");

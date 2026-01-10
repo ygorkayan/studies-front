@@ -1,6 +1,6 @@
 import styles from "./PomodoroTable.module.css";
 import type { FC } from "react";
-import Button from "../../../components/Button/Button";
+import Button from "../Button/Button";
 import type { PomodoroTableProps } from "./helpers";
 import { PomodoroTableLine } from "./PomodoroTableLine";
 

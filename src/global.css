@@ -8,10 +8,11 @@
 :root {
   --color-red: #f44336;
   --font-size-big: 8rem;
-  --font-size-default: 1rem;
   --color-white: #fff;
   --color-back: #313131;
   --color-green: #4caf50;
+  --font-size-medium: 4rem;
+  --font-size-default: 1rem;
   --border-radius-default: 8px;
   --border-default: 2px solid var(--color-white);
 }

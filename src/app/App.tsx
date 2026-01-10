@@ -10,6 +10,7 @@ export const App = () => {
       <div className={styles["button-container"]}>
         <Button onClick={() => navigate("/pomodoro")}>Pomodoro</Button>
         <Button onClick={() => navigate("/flash-cards")}>Flash Cards</Button>
+        <Button onClick={() => navigate("/create-flash-cards")}>Create Flash Cards</Button>
       </div>
     </div>
   );

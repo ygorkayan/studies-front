@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import type { withFlashCards, Question, BodyAnswer } from "./types";
-import { getQuestion, answerQuestion } from "./helper";
+import type { withFlashCards, Question, BodyAnswer } from "./helpers/types";
+import { getQuestion, answerQuestion } from "./helpers/service";
 
 // eslint-disable-next-line react/display-name
 export const withFlashCard: withFlashCards = (Component) => () => {

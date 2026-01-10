@@ -6,6 +6,7 @@ import "./global.css";
 import App from "./app/App";
 import Pomodoro from "./app/pomodoro/Pomodoro";
 import FlashCards from "./app/flash-cards/FlashCards";
+import CreateFlashCard from "./app/create-flash-card/CreateFlashCard";
 import Login from "./app/login/Login";
 
 const router = createBrowserRouter([
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
     element: (
       <Login>
         <FlashCards />
+      </Login>
+    ),
+  },
+  {
+    path: "/create-flash-cards",
+    element: (
+      <Login>
+        <CreateFlashCard />
       </Login>
     ),
   },
