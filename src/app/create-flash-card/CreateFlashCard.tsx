@@ -13,6 +13,7 @@ export const CreateFlashCard: FC<CreateFlashCardProps> = ({
   hasError,
   createFlashCard,
   clean,
+  createDisabled
 }) => (
   <div className={styles.container}>
     <div className={styles.content}>
@@ -23,7 +24,7 @@ export const CreateFlashCard: FC<CreateFlashCardProps> = ({
       <Textarea label="Answer" value={answer} onChange={setAnswer} height="250px" />
 
       <div className={styles["button-container"]}>
-        <Button onClick={createFlashCard}>create</Button>
+        <Button disabled={createDisabled} onClick={createFlashCard}>create</Button>
 
         <Button onClick={clean}>clean</Button>
       </div>

@@ -1,6 +1,7 @@
 import type { FC, JSX } from "react";
 
 export type CreateFlashCardProps = {
+  createDisabled: boolean;
   question: string;
   setQuestion: (value: string) => void;
   answer: string;

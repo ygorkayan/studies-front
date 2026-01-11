@@ -8,6 +8,12 @@ export const withCreateFlashCard: withCreateFlashCardType = (Component) => () =>
   const [answer, setAnswer] = useState("");
   const [hasError, setHasError] = useState(false);
 
+  const clean = useCallback(() => {
+    setQuestion("");
+    setAnswer("");
+    setHasError(false);
+  }, []);
+
   const createFlashCard = useCallback(async () => {
     setHasError(false);
     const success = await createFlashCardService(question, answer);
@@ -17,16 +23,13 @@ export const withCreateFlashCard: withCreateFlashCardType = (Component) => () =>
     } else {
       setHasError(true);
     }
-  }, [question, answer]);
+  }, [question, answer, clean]);
 
-  const clean = useCallback(() => {
-    setQuestion("");
-    setAnswer("");
-    setHasError(false);
-  }, []);
+  const createDisabled = question.trim() === "" || answer.trim() === "";
 
   return (
     <Component
+      createDisabled={createDisabled}
       question={question}
       setQuestion={setQuestion}
       answer={answer}
