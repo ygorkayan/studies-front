@@ -1,11 +1,10 @@
+import { URL_ANSWER_QUESTION, URL_GET_QUESTION } from "../../../global";
 import type { BodyAnswer } from "./types";
-
-const URL_BASE = "https://studies-back.ygorkayan.workers.dev/question";
 
 export const getQuestion = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch(URL_BASE, {
+  const res = await fetch(URL_GET_QUESTION, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -28,10 +27,9 @@ export const getQuestion = async () => {
 };
 
 export const answerQuestion = async (id: number, body: BodyAnswer) => {
-
   const token = localStorage.getItem("token");
 
-  const response = await fetch(`${URL_BASE}/${id}`, {
+  const response = await fetch(`${URL_ANSWER_QUESTION}/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

@@ -1,10 +1,10 @@
 import { useState, type FC } from "react";
 import styles from "./FlashCards.module.css";
 import Button from "../components/Button/Button";
-import type { FlashCardProps } from "./types";
+import type { FlashCardProps } from "./helpers/types";
 import withFlashCard from "./withFlashCard";
-import Loading from "./components/Loading/Loading";
-import Edit from "./edit.svg";
+import Loading from "../components/Loading/Loading";
+import Edit from "../svg/edit.svg";
 import Textarea from "../components/Textarea/Textarea";
 
 export const FlashCards: FC<FlashCardProps> = ({

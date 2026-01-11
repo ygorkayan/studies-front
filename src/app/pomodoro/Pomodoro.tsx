@@ -1,7 +1,7 @@
 import styles from "./Pomodoro.module.css";
 import Button from "../components/Button/Button";
-import PomodoroDisplay from "./components/PomodoroDisplay/PomodoroDisplay";
-import PomodoroTable from "./components/PomodoroTable/PomodoroTable";
+import PomodoroDisplay from "../components/PomodoroDisplay/PomodoroDisplay";
+import PomodoroTable from "../components/PomodoroTable/PomodoroTable";
 import withPomodoro from "./withPomodoro";
 import type { PomodoroProps } from "./types";
 import type { FC } from "react";

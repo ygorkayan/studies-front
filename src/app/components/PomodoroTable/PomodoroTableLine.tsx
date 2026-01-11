@@ -1,7 +1,7 @@
 import styles from "./PomodoroTable.module.css";
 import type { FC } from "react";
 import type { PomodoroTableLineProps } from "./helpers";
-import Button from "../../../components/Button/Button";
+import Button from "../Button/Button";
 
 export const PomodoroTableLine: FC<PomodoroTableLineProps> = ({ cycle, position, deleteCycle }) => {
   const { format } = new Intl.DateTimeFormat("pt-BR", {
