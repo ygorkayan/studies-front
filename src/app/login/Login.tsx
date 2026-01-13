@@ -1,5 +1,5 @@
 import styles from "./Login.module.css";
-import { type FC, type JSX, useCallback, useState } from "react";
+import { type FC, type JSX, useCallback, useEffect, useState } from "react";
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import { login } from "./service";
@@ -28,6 +28,18 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
     return <>{children}</>;
   }
 
+  useEffect(() => {
+    window.onkeydown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        tryLogin();
+      }
+    };
+
+    return () => {
+      window.onkeydown = null;
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       {showError && (
@@ -40,7 +52,6 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
         className={styles.login}
         onSubmit={(e) => {
           e.preventDefault();
-          tryLogin();
         }}
       >
         <h1 className={styles.title}>Login</h1>
