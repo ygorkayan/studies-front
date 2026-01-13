@@ -28,6 +28,12 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
     return <>{children}</>;
   }
 
+  window.onkeydown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      tryLogin();
+    }
+  };
+
   return (
     <div className={styles.container}>
       {showError && (
@@ -40,7 +46,6 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
         className={styles.login}
         onSubmit={(e) => {
           e.preventDefault();
-          tryLogin();
         }}
       >
         <h1 className={styles.title}>Login</h1>
