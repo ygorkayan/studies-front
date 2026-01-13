@@ -38,7 +38,7 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
     return () => {
       window.onkeydown = null;
     };
-  }, []);
+  }, [tryLogin]);
 
   return (
     <div className={styles.container}>
