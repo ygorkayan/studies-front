@@ -23,16 +23,21 @@ export const checkToken = async (token: string | null) => {
     return false;
   }
 
-  const res = await fetch(URL_LOGIN, {
-    method: "GET",
-    headers: {
-      token: token || "",
-    },
-  });
+  try {
+    const res = await fetch(URL_LOGIN, {
+      method: "GET",
+      headers: {
+        token: token,
+      },
+    });
 
-  if (res.status === 200) {
-    return true;
+    if (res.status === 200) {
+      return true;
+    }
+
+    localStorage.removeItem("token");
+    return false;
+  } catch {
+    return false;
   }
-
-  return false;
 };
