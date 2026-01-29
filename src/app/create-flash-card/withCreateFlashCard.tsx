@@ -29,13 +29,13 @@ export const withCreateFlashCard: withCreateFlashCardType = (Component) => () =>
 
   return (
     <Component
-      createDisabled={createDisabled}
-      question={question}
-      setQuestion={setQuestion}
-      answer={answer}
-      setAnswer={setAnswer}
-      hasError={hasError}
       clean={clean}
+      answer={answer}
+      question={question}
+      hasError={hasError}
+      setAnswer={setAnswer}
+      setQuestion={setQuestion}
+      createDisabled={createDisabled}
       createFlashCard={createFlashCard}
     />
   );

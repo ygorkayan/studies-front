@@ -2,31 +2,26 @@ import styles from "./Login.module.css";
 import { type FC, type JSX, useCallback, useEffect, useState } from "react";
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
-import { login } from "./service";
+import { login, checkToken } from "./service";
 
 export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
-
-  const token = localStorage.getItem("token");
+  const [tokenIsValid, setTokenIsValid] = useState(false);
 
   const tryLogin = useCallback(async () => {
     const result = await login(user, password);
 
     if (result.logged) {
       localStorage.setItem("token", result.token);
-      window.location.reload();
+      setTokenIsValid(true);
     } else {
       setUser("");
       setPassword("");
       setShowError(true);
     }
   }, [user, password]);
-
-  if (token) {
-    return <>{children}</>;
-  }
 
   useEffect(() => {
     window.onkeydown = (e: KeyboardEvent) => {
@@ -39,6 +34,16 @@ export const Login: FC<{ children: JSX.Element }> = ({ children }) => {
       window.onkeydown = null;
     };
   }, [tryLogin]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    checkToken(token).then((isValid) => setTokenIsValid(isValid));
+  }, []);
+
+  if (tokenIsValid) {
+    return <>{children}</>;
+  }
 
   return (
     <div className={styles.container}>

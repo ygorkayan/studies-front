@@ -1,7 +1,7 @@
-export const login = async (user: string, password: string) => {
-  const url = "https://studies-back.ygorkayan.workers.dev/login";
+import { URL_LOGIN } from "../../global";
 
-  const response = await fetch(url, {
+export const login = async (user: string, password: string) => {
+  const response = await fetch(URL_LOGIN, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,4 +16,28 @@ export const login = async (user: string, password: string) => {
   const data = await response.json();
 
   return { logged: true, token: data.body };
+};
+
+export const checkToken = async (token: string | null) => {
+  if (token === null) {
+    return false;
+  }
+
+  try {
+    const res = await fetch(URL_LOGIN, {
+      method: "GET",
+      headers: {
+        token: token,
+      },
+    });
+
+    if (res.status === 200) {
+      return true;
+    }
+
+    localStorage.removeItem("token");
+    return false;
+  } catch {
+    return false;
+  }
 };
