@@ -1,4 +1,4 @@
-export const URL_BASE = "https://studies-back.ygorkayan.workers.dev";
+export const URL_BASE = "https://studies-back.ygorkayan.com";
 
 export const URL_CREATE_FLASH_CARD = `${URL_BASE}/question`;
 
