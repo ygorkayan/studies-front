@@ -22,9 +22,8 @@ const Textarea: FC<TextareaProps> = ({ value, width, height, label, onChange = (
 
       <textarea
         id={id}
-        lang="en"
+        spellCheck
         value={value}
-        spellCheck={true}
         style={{ width, height }}
         className={styles.textarea}
         onChange={(e) => onChange(e.target.value)}
