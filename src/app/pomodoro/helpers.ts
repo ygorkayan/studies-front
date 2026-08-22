@@ -1,6 +1,6 @@
-export const TWENTY_FIVE_MINUTES_IN_SECONDS = 25 * 60;
+export const FIFTY_MINUTES_IN_SECONDS = 50 * 60;
 
-export const FIVE_MINUTES_IN_SECONDS = 5 * 60;
+export const TEN_MINUTES_IN_SECONDS = 10 * 60;
 
 export const nowPlus = (time: number) => {
   const now = new Date();
