@@ -6,8 +6,8 @@ import {
   nowPlus,
   playBeep,
   generateUniqueId,
-  FIVE_MINUTES_IN_SECONDS,
-  TWENTY_FIVE_MINUTES_IN_SECONDS,
+  FIFTY_MINUTES_IN_SECONDS,
+  TEN_MINUTES_IN_SECONDS,
 } from "./helpers";
 
 // eslint-disable-next-line react/display-name
@@ -21,7 +21,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
 
     setStudying((oldState) => {
       const newState = !oldState;
-      const time = nowPlus(newState ? TWENTY_FIVE_MINUTES_IN_SECONDS : FIVE_MINUTES_IN_SECONDS);
+      const time = nowPlus(newState ? FIFTY_MINUTES_IN_SECONDS : TEN_MINUTES_IN_SECONDS);
       restart(time, false);
 
       if (oldState) {
@@ -44,7 +44,7 @@ const withPomodoro: withPomodoroType = (Component) => () => {
 
   const { minutes, seconds, start, pause, resume, restart, isRunning } = useTimer({
     autoStart: false,
-    expiryTimestamp: nowPlus(TWENTY_FIVE_MINUTES_IN_SECONDS),
+    expiryTimestamp: nowPlus(FIFTY_MINUTES_IN_SECONDS),
     onExpire: () => {
       done();
       playBeep();
